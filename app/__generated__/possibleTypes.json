@@ -1,0 +1,190 @@
+{
+  "possibleTypes": {
+    "AdditionalPaymentData": [
+      "ManualCheckoutAdditionalData"
+    ],
+    "AttributeValue": [
+      "SwatchAttributeValue",
+      "TextAttributeValue"
+    ],
+    "BaseAddress": [
+      "Address"
+    ],
+    "CartAddLineItemsError": [
+      "CartAddLineItemQuantityExceededError",
+      "CartFrozenError",
+      "CartInvalidQuantityError",
+      "CartNotFoundError",
+      "CartOrderedError",
+      "VariantNotFoundError"
+    ],
+    "CartApplyVoucherError": [
+      "CartInvalidVoucherError",
+      "CartNotFoundError"
+    ],
+    "CartDeleteError": [
+      "CartFrozenError",
+      "CartNotFoundError"
+    ],
+    "CartRemoveLineItemsError": [
+      "CartFrozenError",
+      "CartLineItemNotFoundError",
+      "CartNotFoundError",
+      "CartOrderedError"
+    ],
+    "CartRemoveVoucherError": [
+      "CartNotFoundError",
+      "CartVoucherNotFoundError"
+    ],
+    "CartReplicateError": [
+      "CartInvalidError",
+      "CartNotFoundError",
+      "CartReplicationFailedError"
+    ],
+    "CartShippingMethodSetError": [
+      "CartNotFoundError",
+      "CartShippingAddressMissingError",
+      "CartUnableToSetShippingMethodError"
+    ],
+    "CartUpdateError": [
+      "AddressFieldRequiredError",
+      "AddressInvalidCountryCodeError",
+      "AddressInvalidPhoneNumberError",
+      "AddressInvalidPostalCodeError",
+      "AddressInvalidUnableToDetermineTaxError",
+      "CartNotFoundError"
+    ],
+    "CartUpdateLineItemsError": [
+      "CartAddLineItemQuantityExceededError",
+      "CartFrozenError",
+      "CartInvalidQuantityError",
+      "CartLineItemNotFoundError",
+      "CartNotFoundError",
+      "CartOrderedError",
+      "VariantNotFoundError"
+    ],
+    "CreateCheckoutError": [
+      "ArgumentError",
+      "PaymentIntentFailedError",
+      "ProviderCheckoutError",
+      "ProviderConfigurationNotFoundError",
+      "ProviderGatewayNotFoundError"
+    ],
+    "CreateCheckoutResult": [
+      "ManualCheckout",
+      "StripeCheckout"
+    ],
+    "CustomerActivateError": [
+      "AlreadyConfirmedEmailError",
+      "CustomerNotFoundError",
+      "InvalidEmailError",
+      "InvalidEmailOrPasswordError",
+      "InvalidTokenError",
+      "PasswordRequiresDigitError",
+      "PasswordRequiresLowerError",
+      "PasswordRequiresNonAlphanumericError",
+      "PasswordRequiresUniqueCharsError",
+      "PasswordRequiresUpperError",
+      "PasswordTooShortError"
+    ],
+    "CustomerAddressCreateError": [
+      "AddressFieldRequiredError",
+      "AddressInvalidPostalCodeError",
+      "AddressNotFoundError"
+    ],
+    "CustomerAddressDeleteError": [
+      "AddressNotFoundError"
+    ],
+    "CustomerAddressSetDefaultBillingError": [
+      "AddressNotFoundError"
+    ],
+    "CustomerAddressSetDefaultShippingError": [
+      "AddressNotFoundError"
+    ],
+    "CustomerAddressUpdateError": [
+      "AddressFieldRequiredError",
+      "AddressInvalidPostalCodeError",
+      "AddressNotFoundError"
+    ],
+    "CustomerCreateError": [
+      "InvalidEmailError"
+    ],
+    "CustomerCreateTokenError": [
+      "InvalidEmailOrPasswordError"
+    ],
+    "CustomerRefreshTokenError": [
+      "InvalidTokenError"
+    ],
+    "CustomerResetPasswordError": [
+      "CustomerNotFoundError",
+      "InvalidTokenError",
+      "PasswordRequiresDigitError",
+      "PasswordRequiresLowerError",
+      "PasswordRequiresNonAlphanumericError",
+      "PasswordRequiresUniqueCharsError",
+      "PasswordRequiresUpperError",
+      "PasswordTooShortError"
+    ],
+    "CustomerUpdateError": [
+      "CustomerNotFoundError"
+    ],
+    "DiscountApplicationValue": [
+      "AbsoluteDiscountApplicationValue",
+      "RelativeDiscountApplicationValue"
+    ],
+    "InitializeGatewayError": [
+      "ProviderConfigurationNotFoundError",
+      "ProviderGatewayNotFoundError"
+    ],
+    "ManualCheckoutData": [
+      "ManualStripeCheckoutData"
+    ],
+    "Node": [
+      "Address",
+      "Cart",
+      "Customer",
+      "CustomerGroup",
+      "OrderLineItem"
+    ],
+    "ProviderGateway": [
+      "StripeGateway"
+    ],
+    "UserError": [
+      "AddressFieldRequiredError",
+      "AddressInvalidCountryCodeError",
+      "AddressInvalidPhoneNumberError",
+      "AddressInvalidPostalCodeError",
+      "AddressInvalidUnableToDetermineTaxError",
+      "AddressNotFoundError",
+      "AlreadyConfirmedEmailError",
+      "ArgumentError",
+      "CartAddLineItemQuantityExceededError",
+      "CartFrozenError",
+      "CartInvalidError",
+      "CartInvalidQuantityError",
+      "CartInvalidVoucherError",
+      "CartLineItemNotFoundError",
+      "CartNotFoundError",
+      "CartOrderedError",
+      "CartReplicationFailedError",
+      "CartShippingAddressMissingError",
+      "CartUnableToSetShippingMethodError",
+      "CartVoucherNotFoundError",
+      "CustomerNotFoundError",
+      "InvalidEmailError",
+      "InvalidEmailOrPasswordError",
+      "InvalidTokenError",
+      "PasswordRequiresDigitError",
+      "PasswordRequiresLowerError",
+      "PasswordRequiresNonAlphanumericError",
+      "PasswordRequiresUniqueCharsError",
+      "PasswordRequiresUpperError",
+      "PasswordTooShortError",
+      "PaymentIntentFailedError",
+      "ProviderCheckoutError",
+      "ProviderConfigurationNotFoundError",
+      "ProviderGatewayNotFoundError",
+      "VariantNotFoundError"
+    ]
+  }
+}

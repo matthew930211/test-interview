@@ -1,0 +1,1590 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"""The authorize directive."""
+directive @authorize(
+  """
+  Defines when when the authorize directive shall be applied.By default the authorize directives are applied during the validation phase.
+  """
+  apply: ApplyPolicy! = BEFORE_RESOLVER
+  """
+  The name of the authorization policy that determines access to the annotated resource.
+  """
+  policy: String
+  """Roles that are allowed to access the annotated resource."""
+  roles: [String!]
+) repeatable on FIELD_DEFINITION | OBJECT
+
+directive @doc(category: String!) on ARGUMENT_DEFINITION | ENUM | ENUM_VALUE | FIELD_DEFINITION | INPUT_FIELD_DEFINITION | INPUT_OBJECT | OBJECT
+
+type AbsoluteDiscountApplicationValue {
+  value: Money!
+}
+
+union AdditionalPaymentData = ManualCheckoutAdditionalData
+
+input AdditionalPaymentDataTaggedUnionInput {
+  manualCheckout: ManualCheckoutAdditionalDataTaggedUnionInput
+}
+
+type Address implements BaseAddress & Node {
+  """The first line of the address."""
+  address1: String
+  """The second line of the address."""
+  address2: String
+  """The city of the address."""
+  city: String
+  """The company of the address."""
+  company: String
+  """The country code of the address."""
+  countryCode: String
+  """The email address of the address."""
+  email: String
+  """The first name of the address."""
+  firstName: String
+  formattedAddress: String
+  """The unique identifier of the address."""
+  id: ID!
+  """The last name of the address."""
+  lastName: String
+  """The metadata of the address"""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The phone number of the address."""
+  phone: String
+  """The postal code of the address."""
+  postalCode: String
+  """The state of the address."""
+  state: String
+}
+
+type AddressFieldRequiredError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+input AddressInput {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  countryCode: String
+  email: String
+  firstName: String
+  id: ID
+  lastName: String
+  metadata: [KeyValuePairOfStringAndStringInput!]
+  phone: String
+  postalCode: String
+  state: String
+}
+
+type AddressInvalidCountryCodeError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type AddressInvalidPhoneNumberError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type AddressInvalidPostalCodeError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type AddressInvalidUnableToDetermineTaxError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type AddressNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+"""A connection to a list of items."""
+type AddressesConnection {
+  """A list of edges."""
+  edges: [AddressesEdge!]
+  """A flattened list of the nodes."""
+  nodes: [Address!]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type AddressesEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: Address!
+}
+
+type AggregateDto {
+  name: String!
+  values: [AggregateValueDto!]!
+}
+
+type AggregateValueDto {
+  count: Long!
+  name: String!
+}
+
+type AlreadyConfirmedEmailError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+"""Defines when a policy shall be executed."""
+enum ApplyPolicy {
+  """After the resolver was executed."""
+  AFTER_RESOLVER
+  """Before the resolver was executed."""
+  BEFORE_RESOLVER
+  """The policy is applied in the validation step before the execution."""
+  VALIDATION
+}
+
+type ArgumentError implements UserError {
+  field: [String!]
+  message: String!
+  paramName: String
+}
+
+type AttributeAssignment {
+  """The attribute assigned to the product."""
+  attribute: AttributeDto!
+  id: ID!
+  """The name of the attribute"""
+  name: String!
+  """
+  The values assigned to the product, based on which values the variants have.
+  """
+  values(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): AttributeValueConnection!
+}
+
+type AttributeDto {
+  """The unique identifier of the attribute."""
+  id: ID!
+  """The name of the attribute."""
+  name: String!
+  """The type of the attribute."""
+  type: ProductAttributeType!
+}
+
+interface AttributeValue {
+  """The unique identifier of the attribute value."""
+  id: ID!
+  metadata: [KeyValuePairOfStringAndString!]!
+  """The value of the attribute."""
+  value: String!
+}
+
+"""A connection to a list of items."""
+type AttributeValueConnection {
+  """A list of edges."""
+  edges: [AttributeValueEdge!]
+  """A flattened list of the nodes"""
+  nodes: [AttributeValue!]
+  """Information to aid in pagination."""
+  pageInfo: Foo!
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+type AttributeValueEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: AttributeValue!
+}
+
+interface BaseAddress {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  countryCode: String
+  email: String
+  firstName: String
+  id: ID!
+  lastName: String
+  metadata: [KeyValuePairOfStringAndString!]
+  phone: String
+  postalCode: String
+  state: String
+}
+
+type Cart implements Node {
+  """The billing address of the cart."""
+  billingAddress: Address!
+  channel: Channel!
+  """The unique identifier of the channel the cart belongs to."""
+  channelId: TypeIdDecoded!
+  """The date and time when the cart was created."""
+  createdAt: DateTime!
+  """The currency code of the cart."""
+  currencyCode: String!
+  """The unique identifier of the cart."""
+  id: ID!
+  """The date and time when the cart was last modified."""
+  lastModifiedAt: DateTime
+  lineItems(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): LineItemsConnection
+  """The metadata of the cart."""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The shipping address of the cart."""
+  shippingAddress: Address!
+  shippingMethod: CartShippingMethod
+  shippingMethods: [CartShippingMethod!]!
+  subtotalPrice: Money!
+  taxedPrice: TaxedPrice
+  totalPrice: Money!
+  totalQuantity: Int!
+  vouchers: [CartVoucher!]!
+}
+
+type CartAddLineItemQuantityExceededError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+union CartAddLineItemsError = CartAddLineItemQuantityExceededError | CartFrozenError | CartInvalidQuantityError | CartNotFoundError | CartOrderedError | VariantNotFoundError
+
+input CartAddLineItemsInput @doc(category: "Carts") {
+  cartId: ID!
+  lineItems: [CartLineItemInput!]!
+}
+
+type CartAddLineItemsPayload {
+  cart: Cart
+  errors: [CartAddLineItemsError!]
+}
+
+input CartAddressInput {
+  address: AddressInput!
+  """
+  If false the creation of the address will succeed, even if the system thinks the address is invalid
+  """
+  validate: Boolean! = true
+}
+
+union CartApplyVoucherError = CartInvalidVoucherError | CartNotFoundError
+
+input CartApplyVoucherInput @doc(category: "Carts") {
+  cartId: ID!
+  code: String!
+}
+
+type CartApplyVoucherPayload {
+  cart: Cart
+  errors: [CartApplyVoucherError!]
+}
+
+"""Creates a new cart."""
+input CartCreateInput @doc(category: "Carts") {
+  billingAddress: CartAddressInput
+  channelId: ID
+  channelSlug: String
+  currency: String!
+  lineItems: [CartLineItemInput!]!
+  metadata: [KeyValuePairOfStringAndStringInput!]
+  shippingAddress: CartAddressInput
+}
+
+type CartCreatePayload {
+  cart: Cart
+}
+
+union CartDeleteError = CartFrozenError | CartNotFoundError
+
+input CartDeleteInput @doc(category: "Carts") {
+  cartId: ID!
+}
+
+type CartDeletePayload {
+  cartDeleteResult: CartDeleteResult
+  errors: [CartDeleteError!]
+}
+
+type CartDeleteResult @doc(category: "Carts") {
+  cartId: ID!
+  success: Boolean!
+}
+
+type CartFrozenError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartInvalidError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartInvalidQuantityError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartInvalidVoucherError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartLineItem {
+  discountApplications: [LineItemDiscountApplication!]!
+  """The unique identifier of the cart line item."""
+  id: ID!
+  """The metadata of the line item."""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The original price of the cart line item."""
+  originalUnitPrice: Money!
+  product: Product
+  """The name of the line item."""
+  productName: String!
+  """The slug of the line item."""
+  productSlug: String!
+  """The quantity of the cart line item."""
+  quantity: Int!
+  """The SKU of the line item."""
+  sku: String!
+  subtotal: Money!
+  """The tax rate that applies to the line item."""
+  taxRate: TaxRate
+  taxedPrice: TaxedPrice
+  taxedPriceStatus: TaxCalculationStatus
+  total: Money!
+  """The unit price of the cart line item."""
+  unitPrice: Money!
+  variant: Variant
+  """The name of the line item."""
+  variantName: String!
+}
+
+input CartLineItemInput @doc(category: "Carts") {
+  metadata: [KeyValuePairOfStringAndStringInput!]
+  """The number of line items of the given variant present in the cart."""
+  quantity: Int!
+  """The unique identifier of the product variant."""
+  variantId: ID!
+}
+
+type CartLineItemNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+input CartMetadataInput @doc(category: "Carts") {
+  metadataToAdd: [KeyValuePairOfStringAndStringInput!]
+  metadataToRemove: [String!]
+}
+
+type CartNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartOrderedError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+union CartRemoveLineItemsError = CartFrozenError | CartLineItemNotFoundError | CartNotFoundError | CartOrderedError
+
+input CartRemoveLineItemsInput @doc(category: "Carts") {
+  cartId: ID!
+  lineItemIds: [ID!]!
+}
+
+type CartRemoveLineItemsPayload {
+  cart: Cart
+  errors: [CartRemoveLineItemsError!]
+}
+
+union CartRemoveVoucherError = CartNotFoundError | CartVoucherNotFoundError
+
+input CartRemoveVoucherInput @doc(category: "Carts") {
+  cartId: ID!
+  voucherCodeId: ID!
+}
+
+type CartRemoveVoucherPayload {
+  cart: Cart
+  errors: [CartRemoveVoucherError!]
+}
+
+type CartReplicaLineItem {
+  availableInTarget: Boolean!
+  existsInTarget: Boolean!
+  quantityAllocatedInTarget: Int
+  variantId: ID!
+}
+
+union CartReplicateError = CartInvalidError | CartNotFoundError | CartReplicationFailedError
+
+input CartReplicateInput @doc(category: "Carts") {
+  cartId: ID!
+  """The channel to replicate the cart to."""
+  channelId: ID!
+  currencyCode: String!
+  """The strategy to use when replicating the cart."""
+  strategy: CartReplicateStrategy! = SKIP_UNAVAILABLE
+}
+
+type CartReplicatePayload {
+  cart: Cart
+  errors: [CartReplicateError!]
+}
+
+"""Defines the strategy to be applied when replicating the cart."""
+enum CartReplicateStrategy @doc(category: "Carts") {
+  """
+  Replicates the cart by approximating the requested quantities as closely as possible. For example, if a line item specifies a quantity of 5 but only 4 are available, 4 will be added to the replicated cart.
+  """
+  PARTIAL_REPLICATION
+  """
+  Replicates the cart while excluding any line items that cannot be fully replicated. For example, if a line item specifies a quantity of 5 but only 4 are available, the item will be removed from the replicated cart.
+  """
+  SKIP_UNAVAILABLE
+  """
+  Generates an error if the cart cannot be replicated exactly as specified.
+  """
+  STRICT
+}
+
+type CartReplicationFailedError implements UserError {
+  field: [String!]!
+  lineItems: [CartReplicaLineItem!]!
+  message: String!
+}
+
+type CartShippingAddressMissingError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type CartShippingMethod {
+  """The description of the shipping method."""
+  description: String!
+  """The unique identifier of the shipping method."""
+  id: ID!
+  """The metadata of the shipping method."""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The name of the shipping method."""
+  name: String!
+  """The price of the shipping method."""
+  price: Money!
+}
+
+union CartShippingMethodSetError = CartNotFoundError | CartShippingAddressMissingError | CartUnableToSetShippingMethodError
+
+input CartShippingMethodSetInput @doc(category: "Carts") {
+  cartId: ID!
+  shippingMethodId: ID!
+}
+
+type CartShippingMethodSetPayload {
+  cart: Cart
+  errors: [CartShippingMethodSetError!]
+}
+
+type CartUnableToSetShippingMethodError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+union CartUpdateError = AddressFieldRequiredError | AddressInvalidCountryCodeError | AddressInvalidPhoneNumberError | AddressInvalidPostalCodeError | AddressInvalidUnableToDetermineTaxError | CartNotFoundError
+
+input CartUpdateInput @doc(category: "Carts") {
+  billingAddress: CartAddressInput
+  billingAddressV2: AddressInput
+  cartId: ID!
+  currencyCode: String
+  metadataInput: CartMetadataInput
+  shippingAddress: CartAddressInput
+  shippingAddressV2: AddressInput
+}
+
+union CartUpdateLineItemsError = CartAddLineItemQuantityExceededError | CartFrozenError | CartInvalidQuantityError | CartLineItemNotFoundError | CartNotFoundError | CartOrderedError | VariantNotFoundError
+
+input CartUpdateLineItemsInput @doc(category: "Carts") {
+  cartId: ID!
+  lineItems: [UpdateLineItemInput!]!
+}
+
+type CartUpdateLineItemsPayload {
+  cart: Cart
+  errors: [CartUpdateLineItemsError!]
+}
+
+type CartUpdatePayload {
+  cart: Cart
+  errors: [CartUpdateError!]
+}
+
+type CartVoucher {
+  """The code of the cart voucher."""
+  code: String!
+  """The unique identifier of the cart voucher for the given cart."""
+  id: ID!
+  """The name of the cart voucher."""
+  name: String!
+}
+
+type CartVoucherNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type Channel {
+  """The unique identifier of the channel."""
+  id: ID!
+  name: String!
+  slug: String!
+}
+
+type CheckoutStateData {
+  """The current state of the order."""
+  currentState: String!
+  pspReference: String
+  referenceId: String
+}
+
+type Country {
+  code: String!
+  language: String
+  name: String!
+  optionalFields: [KeyValuePairOfStringAndString!]!
+  phoneNumberPrefix: String
+  requiredFields: [KeyValuePairOfStringAndString!]!
+  stateNameType: String
+  zipNameType: String
+  zones: [Zone!]!
+}
+
+union CreateCheckoutError = ArgumentError | PaymentIntentFailedError | ProviderCheckoutError | ProviderConfigurationNotFoundError | ProviderGatewayNotFoundError
+
+input CreateCheckoutInput {
+  additionalData: AdditionalPaymentDataTaggedUnionInput!
+  cartId: String!
+  configurationName: String!
+  metadata: [KeyValuePairOfStringAndStringInput!]
+  providerName: String!
+}
+
+type CreateCheckoutPayload {
+  createCheckoutResult: CreateCheckoutResult
+  errors: [CreateCheckoutError!]
+}
+
+union CreateCheckoutResult = ManualCheckout | StripeCheckout
+
+type Customer implements Node {
+  """A list of addresses associated with the customer."""
+  addresses(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): AddressesConnection
+  """The default billing address of the customer."""
+  defaultBillingAddress: Address
+  """The default shipping address of the customer."""
+  defaultShippingAddress: Address
+  """The email address of the customer."""
+  email: String
+  """The first name of the customer."""
+  firstName: String
+  group: CustomerGroup
+  """The unique identifier of the customer."""
+  id: ID!
+  """The last name of the customer."""
+  lastName: String
+  order(orderId: ID!): Order
+  orders(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    query: String
+  ): OrdersConnection
+  """The preferences of the customer."""
+  preferences: [KeyValuePairOfStringAndString!]
+}
+
+type CustomerAccessToken {
+  accessToken: String
+  expiresIn: Long!
+  refreshToken: String
+  tokenType: String!
+}
+
+type CustomerAccountDeletePayload {
+  customer: Customer
+}
+
+union CustomerActivateError = AlreadyConfirmedEmailError | CustomerNotFoundError | InvalidEmailError | InvalidEmailOrPasswordError | InvalidTokenError | PasswordRequiresDigitError | PasswordRequiresLowerError | PasswordRequiresNonAlphanumericError | PasswordRequiresUniqueCharsError | PasswordRequiresUpperError | PasswordTooShortError
+
+input CustomerActivateInput {
+  id: ID!
+  password: String!
+  token: String!
+}
+
+type CustomerActivatePayload {
+  customer: Customer
+  customerAccessToken: CustomerAccessToken
+  errors: [CustomerActivateError!]
+}
+
+union CustomerAddressCreateError = AddressFieldRequiredError | AddressInvalidPostalCodeError | AddressNotFoundError
+
+input CustomerAddressCreateInput {
+  address: CustomerAddressInput!
+  """
+  Force the creation of the address even if the system thinks the address is invalid
+  """
+  force: Boolean
+}
+
+type CustomerAddressCreatePayload {
+  address: Address
+  errors: [CustomerAddressCreateError!]
+}
+
+union CustomerAddressDeleteError = AddressNotFoundError
+
+input CustomerAddressDeleteInput {
+  id: ID!
+}
+
+type CustomerAddressDeletePayload {
+  errors: [CustomerAddressDeleteError!]
+  typeIdDecoded: TypeIdDecoded
+}
+
+input CustomerAddressInput {
+  address1: String
+  address2: String
+  city: String
+  company: String
+  countryCode: String
+  email: String
+  firstName: String
+  lastName: String
+  metadata: [KeyValuePairOfStringAndStringInput!]
+  name: String
+  phone: String
+  postalCode: String
+  state: String
+}
+
+union CustomerAddressSetDefaultBillingError = AddressNotFoundError
+
+input CustomerAddressSetDefaultBillingInput {
+  id: ID!
+}
+
+type CustomerAddressSetDefaultBillingPayload {
+  address: Address
+  errors: [CustomerAddressSetDefaultBillingError!]
+}
+
+union CustomerAddressSetDefaultShippingError = AddressNotFoundError
+
+input CustomerAddressSetDefaultShippingInput {
+  id: ID!
+}
+
+type CustomerAddressSetDefaultShippingPayload {
+  address: Address
+  errors: [CustomerAddressSetDefaultShippingError!]
+}
+
+union CustomerAddressUpdateError = AddressFieldRequiredError | AddressInvalidPostalCodeError | AddressNotFoundError
+
+input CustomerAddressUpdateInput {
+  address: CustomerAddressInput!
+  """
+  Force the update of the address even if the system thinks the address is invalid
+  """
+  force: Boolean
+  id: ID!
+}
+
+type CustomerAddressUpdatePayload {
+  address: Address
+  errors: [CustomerAddressUpdateError!]
+}
+
+union CustomerCreateError = InvalidEmailError
+
+input CustomerCreateInput {
+  email: String!
+}
+
+type CustomerCreatePayload {
+  errors: [CustomerCreateError!]
+}
+
+union CustomerCreateTokenError = InvalidEmailOrPasswordError
+
+input CustomerCreateTokenInput {
+  email: String!
+  password: String!
+}
+
+type CustomerCreateTokenPayload {
+  customerAccessToken: CustomerAccessToken
+  errors: [CustomerCreateTokenError!]
+}
+
+type CustomerGroup implements Node {
+  """The description of the customer group."""
+  description: String
+  """The unique identifier of the customer group."""
+  id: ID!
+  """The name of the customer group."""
+  name: String!
+}
+
+type CustomerNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+input CustomerPreferenceInput {
+  key: String!
+  value: String!
+}
+
+input CustomerPreferenceUpdateInput {
+  """List of keys and values to add to the preferences"""
+  addPreferences: [CustomerPreferenceInput!]!
+  """List of keys to remove from the preferences"""
+  removePreferences: [String!]!
+}
+
+type CustomerPreferenceUpdatePayload {
+  customer: Customer
+}
+
+union CustomerRefreshTokenError = InvalidTokenError
+
+input CustomerRefreshTokenInput {
+  refreshToken: String!
+}
+
+type CustomerRefreshTokenPayload {
+  customerAccessToken: CustomerAccessToken
+  errors: [CustomerRefreshTokenError!]
+}
+
+union CustomerResetPasswordError = CustomerNotFoundError | InvalidTokenError | PasswordRequiresDigitError | PasswordRequiresLowerError | PasswordRequiresNonAlphanumericError | PasswordRequiresUniqueCharsError | PasswordRequiresUpperError | PasswordTooShortError
+
+input CustomerResetPasswordInput {
+  email: String!
+  password: String!
+  token: String!
+}
+
+type CustomerResetPasswordPayload {
+  customerEmail: String
+  errors: [CustomerResetPasswordError!]
+}
+
+input CustomerResetPasswordTokenInput {
+  email: String!
+}
+
+type CustomerResetPasswordTokenPayload {
+  customerEmail: String!
+}
+
+union CustomerUpdateError = CustomerNotFoundError
+
+input CustomerUpdateInput {
+  firstName: String
+  lastName: String
+  preferences: [CustomerUpdatePreferenceInput!]
+}
+
+type CustomerUpdatePayload {
+  customer: Customer
+  errors: [CustomerUpdateError!]
+}
+
+input CustomerUpdatePreferenceInput {
+  key: String!
+  value: String!
+}
+
+"""The `DateTime` scalar represents an ISO-8601 compliant date time type."""
+scalar DateTime @specifiedBy(url: "https://www.graphql-scalars.com/date-time")
+
+"""The `Decimal` scalar type represents a decimal floating-point number."""
+scalar Decimal
+
+type DiscountApplicationV1 {
+  label: String!
+  value: DiscountApplicationValue!
+}
+
+union DiscountApplicationValue = AbsoluteDiscountApplicationValue | RelativeDiscountApplicationValue
+
+type DiscountedPrice {
+  applications: [DiscountApplicationV1!]!
+  value: Money!
+}
+
+"""Information about pagination in a connection."""
+type Foo {
+  """A list of cursors to continue paginating backwards."""
+  backwardCursors: [PageCursor!]!
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+  """A list of cursors to continue paginating forwards."""
+  forwardCursors: [PageCursor!]!
+  """
+  Indicates whether more edges exist following the set defined by the clients arguments.
+  """
+  hasNextPage: Boolean!
+  """
+  Indicates whether more edges exist prior the set defined by the clients arguments.
+  """
+  hasPreviousPage: Boolean!
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+union InitializeGatewayError = ProviderConfigurationNotFoundError | ProviderGatewayNotFoundError
+
+input InitializeGatewayInput {
+  configurationName: String!
+  providerName: String!
+}
+
+type InitializeGatewayPayload {
+  errors: [InitializeGatewayError!]
+  providerGateway: ProviderGateway
+}
+
+type InvalidEmailError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type InvalidEmailOrPasswordError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type InvalidTokenError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type KeyValuePairOfStringAndString {
+  key: String!
+  value: String!
+}
+
+input KeyValuePairOfStringAndStringInput {
+  key: String!
+  value: String!
+}
+
+type LineItemDiscountApplication {
+  """The discounted amount of the line item discount application."""
+  discountedAmount: Money!
+  """The unique identifier of the line item discount application."""
+  id: ID!
+  """The label of the line item discount application."""
+  label: String!
+}
+
+"""A connection to a list of items."""
+type LineItemsConnection {
+  """A list of edges."""
+  edges: [LineItemsEdge!]
+  """A flattened list of the nodes."""
+  nodes: [CartLineItem!]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type LineItemsEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: CartLineItem!
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type ManualCheckout {
+  checkoutId: String!
+  correlationId: UUID!
+  transactionId: UUID!
+}
+
+type ManualCheckoutAdditionalData {
+  data: ManualCheckoutData!
+}
+
+input ManualCheckoutAdditionalDataTaggedUnionInput {
+  manualStripe: ManualStripeCheckoutDataInput
+}
+
+union ManualCheckoutData = ManualStripeCheckoutData
+
+type ManualStripeCheckoutData {
+  paymentIntentId: String!
+}
+
+input ManualStripeCheckoutDataInput {
+  paymentIntentId: String!
+}
+
+type Media {
+  """The content type of the media."""
+  contentType: String!
+  """The file extension of the media."""
+  fileExtension: String!
+  """The file name of the media."""
+  fileName: String!
+  """The unique identifier of the media."""
+  id: ID!
+  src: String!
+}
+
+"""A connection to a list of items."""
+type MediaConnection {
+  """A list of edges."""
+  edges: [MediaEdge!]
+  """A flattened list of the nodes"""
+  nodes: [Media!]
+  """Information to aid in pagination."""
+  pageInfo: Foo!
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+type MediaEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: Media!
+}
+
+type Money {
+  centAmount: Long!
+  currencyCode: String!
+  fractionDigits: Int!
+  isZero: Boolean!
+}
+
+"""The monetary value in the smallest unit of the currency."""
+type MoneyV2 {
+  centAmount: Long!
+  currencyCode: String!
+  fractionalDigits: Int!
+}
+
+type Mutation {
+  cartAddLineItems(input: CartAddLineItemsInput!): CartAddLineItemsPayload! @doc(category: "Carts")
+  cartApplyVoucher(input: CartApplyVoucherInput!): CartApplyVoucherPayload! @doc(category: "Carts")
+  cartCreate(input: CartCreateInput!): CartCreatePayload! @doc(category: "Carts")
+  cartDelete(input: CartDeleteInput!): CartDeletePayload!
+  cartRemoveLineItems(input: CartRemoveLineItemsInput!): CartRemoveLineItemsPayload! @doc(category: "Carts")
+  cartRemoveVoucher(input: CartRemoveVoucherInput!): CartRemoveVoucherPayload! @doc(category: "Carts")
+  cartReplicate(input: CartReplicateInput!): CartReplicatePayload! @doc(category: "Carts")
+  cartShippingMethodSet(input: CartShippingMethodSetInput!): CartShippingMethodSetPayload! @doc(category: "Carts")
+  cartUpdate(input: CartUpdateInput!): CartUpdatePayload! @doc(category: "Carts")
+  cartUpdateLineItems(input: CartUpdateLineItemsInput!): CartUpdateLineItemsPayload! @doc(category: "Carts")
+  createCheckout(input: CreateCheckoutInput!): CreateCheckoutPayload!
+  customerAccountDelete: CustomerAccountDeletePayload! @authorize @doc(category: "Customers")
+  customerActivate(input: CustomerActivateInput!): CustomerActivatePayload! @doc(category: "Customers")
+  customerAddressCreate(input: CustomerAddressCreateInput!): CustomerAddressCreatePayload! @authorize @doc(category: "Customers")
+  customerAddressDelete(input: CustomerAddressDeleteInput!): CustomerAddressDeletePayload! @authorize @doc(category: "Customers")
+  customerAddressSetDefaultBilling(input: CustomerAddressSetDefaultBillingInput!): CustomerAddressSetDefaultBillingPayload! @authorize @doc(category: "Customers")
+  customerAddressSetDefaultShipping(input: CustomerAddressSetDefaultShippingInput!): CustomerAddressSetDefaultShippingPayload! @authorize @doc(category: "Customers")
+  customerAddressUpdate(input: CustomerAddressUpdateInput!): CustomerAddressUpdatePayload! @authorize @doc(category: "Customers")
+  customerCreate(input: CustomerCreateInput!): CustomerCreatePayload! @doc(category: "Customers")
+  customerCreateToken(input: CustomerCreateTokenInput!): CustomerCreateTokenPayload! @doc(category: "Customers")
+  customerPreferenceUpdate(input: CustomerPreferenceUpdateInput!): CustomerPreferenceUpdatePayload! @authorize @doc(category: "Customers")
+  customerRefreshToken(input: CustomerRefreshTokenInput!): CustomerRefreshTokenPayload! @doc(category: "Customers")
+  customerResetPassword(input: CustomerResetPasswordInput!): CustomerResetPasswordPayload! @doc(category: "Customers")
+  customerResetPasswordToken(input: CustomerResetPasswordTokenInput!): CustomerResetPasswordTokenPayload! @doc(category: "Customers")
+  customerUpdate(input: CustomerUpdateInput!): CustomerUpdatePayload! @doc(category: "Customers")
+  initializeGateway(input: InitializeGatewayInput!): InitializeGatewayPayload!
+}
+
+"""
+The node interface is implemented by entities that have a global unique identifier.
+"""
+interface Node {
+  id: ID!
+}
+
+enum NotCalculatedTaxedPriceReason {
+  NOT_CALCULATED_YET
+  NO_TAX_RATE_FOUND
+  SHIPPING_COUNTRY_NOT_SET
+}
+
+type Order {
+  billingAddress: Address!
+  """The date and time the order was created."""
+  createdAt: DateTime!
+  """The external reference id of the order."""
+  externalReferenceId: String
+  """The unique identifier of the order."""
+  id: ID!
+  lineItems: [OrderLineItem!]
+  """The order number."""
+  number: Int!
+  """The current state of the order."""
+  orderState: OrderState!
+  """The current state of the payment."""
+  paymentState: PaymentState!
+  """The current state of the shipment."""
+  shipmentState: ShipmentState!
+  shippingAddress: Address!
+  shippingMethod: OrderShippingMethod
+  subtotal: Money!
+  taxedPrice: TaxedPrice!
+  totalPrice: Money!
+  trackingDetails: [TrackingDetails!]!
+}
+
+type OrderLineItem implements Node {
+  """The unique identifier of the line item."""
+  id: ID!
+  """The metadata of the line item."""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The original price of a single unit of the line item."""
+  originalUnitPrice: Money!
+  product: Product
+  """The name of the line item."""
+  productName: String!
+  """The slug of the line item."""
+  productSlug: String!
+  """The number of line items of the given variant present in the order."""
+  quantity: Int!
+  """The SKU of the line item."""
+  sku: String!
+  """The subtotal of the line item."""
+  subtotal: Money!
+  """The total discount applied to the line item."""
+  totalDiscount: Money!
+  """The taxed price of the line item."""
+  totalPrice: Money!
+  """The price of a single unit of the line item."""
+  unitPrice: Money!
+  variant: Variant
+  """The name of the line item."""
+  variantName: String!
+  variantV2: Variant
+}
+
+type OrderShippingMethod {
+  id: ID!
+  metadata: [KeyValuePairOfStringAndString!]
+  shippingMethodName: String!
+  sku: String
+  unitPrice: Money!
+}
+
+enum OrderState {
+  CANCELLED
+  COMPLETED
+  CONFIRMED
+  OPEN
+}
+
+"""A connection to a list of items."""
+type OrdersConnection {
+  """A list of edges."""
+  edges: [OrdersEdge!]
+  """A flattened list of the nodes."""
+  nodes: [Order!]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection."""
+type OrdersEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: Order!
+}
+
+"""A cursor that points to a specific page."""
+type PageCursor {
+  """The cursor."""
+  cursor: String!
+  """The page number."""
+  page: Int!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+  """
+  Indicates whether more edges exist following the set defined by the clients arguments.
+  """
+  hasNextPage: Boolean!
+  """
+  Indicates whether more edges exist prior the set defined by the clients arguments.
+  """
+  hasPreviousPage: Boolean!
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+type PasswordRequiresDigitError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PasswordRequiresLowerError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PasswordRequiresNonAlphanumericError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PasswordRequiresUniqueCharsError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PasswordRequiresUpperError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PasswordTooShortError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type PaymentIntentFailedError implements UserError {
+  field: [String!]
+  message: String!
+}
+
+enum PaymentState {
+  AUTHORIZED
+  BALANCE_DUE
+  CANCELLED
+  FAILED
+  PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+}
+
+type Price {
+  discountedPrice: DiscountedPrice
+  """The date and time from which the price is valid."""
+  validFrom: DateTime
+  """The date and time to which the price is valid."""
+  validUntil: DateTime
+  """The value of the original price. This does not contains discounts."""
+  value: Money!
+}
+
+type PriceDto {
+  id: ID!
+  value: MoneyV2!
+}
+
+type Product {
+  """A list of attributes associated with the product."""
+  attributeAssignments: [AttributeAssignment!]!
+  channelId: ID!
+  currency: String!
+  """The description of the product."""
+  description: String
+  """
+  Gets the hero variant for the product, the hero variant is the first variant of the product, or the specific variant chosen for the channel
+  """
+  heroVariant: Variant
+  """The unique identifier of the product."""
+  id: ID!
+  """The metadata of the product."""
+  metadata: [KeyValuePairOfStringAndString!]!
+  """The name of the product."""
+  name: String!
+  priceRange: ProductPriceRange!
+  """The slug of the product."""
+  slug: String!
+  """The tags of the product."""
+  tags: [String!]!
+  """The variants of the product."""
+  variants(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): VariantConnection!
+  """
+  The number of variants that are associated with the product and published in the current channel.
+  """
+  variantsCount: Long!
+  """The vendor of the product."""
+  vendor: String
+}
+
+enum ProductAttributeType {
+  SWATCH
+  TEXT
+}
+
+type ProductPriceRange {
+  maxPrice: Money!
+  minPrice: Money!
+}
+
+enum ProductSortKeys {
+  ID
+  NAME
+  PRICE
+}
+
+type ProductsConnection {
+  aggregates: [AggregateDto!]!
+  """A list of edges."""
+  edges: [ProductsEdge!]
+  """A flattened list of the nodes"""
+  nodes: [Product!]
+  """Information to aid in pagination."""
+  pageInfo: Foo!
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+type ProductsEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: Product!
+}
+
+type ProviderCheckoutError implements UserError {
+  field: [String!]
+  message: String!
+}
+
+type ProviderConfigurationNotFoundError implements UserError {
+  field: [String!]
+  message: String!
+}
+
+union ProviderGateway = StripeGateway
+
+type ProviderGatewayNotFoundError implements UserError {
+  field: [String!]
+  message: String!
+}
+
+type Query {
+  cart(id: ID!): Cart @doc(category: "Carts")
+  checkout(referenceId: String!): CheckoutStateData
+  countries: [Country!]!
+  customer: Customer @authorize @doc(category: "Customers")
+  order(referenceId: String!): Order
+  """The currency code of which prices you want to load."""
+  product(channel: String!, currency: String, id: ID, slug: String): Product
+  """The currency code of which prices you want to load."""
+  productV2(channel: String!, currency: String, id: ID, slug: String): Product
+  """The currency code of which prices you want to load."""
+  products(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    channel: String!
+    currency: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    query: String
+    sortDirection: SortDirection! = ASC
+    sortKey: ProductSortKeys! = ID
+  ): ProductsConnection!
+  """The currency code of which prices you want to load."""
+  productsV2(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    channel: String!
+    currency: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    query: String
+    sortDirection: SortDirection! = ASC
+    sortKey: ProductSortKeys! = ID
+  ): ProductsConnection!
+}
+
+type RelativeDiscountApplicationValue {
+  factor: Decimal!
+}
+
+type SelectedAttribute {
+  """The product attribute’s name."""
+  name: String!
+  """The product attribute value’s value."""
+  value: String!
+}
+
+type SelectedAttributeDto {
+  attribute: AttributeDto!
+  attributeValue: AttributeValue!
+  """The selected attribute name"""
+  name: String!
+  """The selected attribute value"""
+  value: String!
+}
+
+enum ShipmentState {
+  DELIVERED
+  PENDING
+  READY
+  SHIPPED
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum StockPolicy {
+  NOT_TRACKED
+  TRACKED
+}
+
+type StripeCheckout {
+  clientSecret: String!
+  pspReference: String!
+}
+
+type StripeGateway {
+  publishableKey: String!
+}
+
+type SwatchAttributeValue implements AttributeValue {
+  color: String
+  id: ID!
+  media: Media
+  metadata: [KeyValuePairOfStringAndString!]!
+  """The value of the attribute."""
+  value: String!
+}
+
+type TaxCalculationStatus {
+  calculated: Boolean!
+  reason: NotCalculatedTaxedPriceReason
+}
+
+type TaxRate {
+  """Tax rate."""
+  amount: Decimal!
+  """Country in which the tax rate is applicable."""
+  countryCode: String!
+  """The unique identifier of the Tax Rate."""
+  id: ID!
+  """The name of the Tax Rate."""
+  name: String!
+  """State in which the tax rate is applicable."""
+  state: String
+}
+
+type TaxedPrice {
+  notCalculatedReason: NotCalculatedTaxedPriceReason
+  totalGross: Money!
+  totalNet: Money!
+  totalTax: Money!
+}
+
+type TextAttributeValue implements AttributeValue {
+  id: ID!
+  metadata: [KeyValuePairOfStringAndString!]!
+  """The value of the attribute."""
+  value: String!
+}
+
+type TrackingDetails {
+  carrier: String!
+  trackingNumber: String!
+  trackingUrl: String!
+}
+
+type TypeId {
+  decode: TypeIdDecoded!
+  hasType(type: String!): Boolean!
+}
+
+type TypeIdDecoded {
+  encode: TypeId!
+  hasType(type: String!): Boolean!
+  id: UUID!
+  suffix: String!
+  timestamp: DateTime!
+  type: String!
+}
+
+scalar UUID @specifiedBy(url: "https://tools.ietf.org/html/rfc4122")
+
+input UpdateLineItemInput @doc(category: "Carts") {
+  lineItemId: ID!
+  quantity: Int!
+}
+
+interface UserError {
+  field: [String!]
+  message: String!
+}
+
+type Variant {
+  availability: VariantAvailability!
+  """
+  The barcode (for example, ISBN, UPC, or GTIN) associated with the variant.
+  """
+  barcode: String
+  channelId: ID!
+  currency: String!
+  """The unique identifier of the variant."""
+  id: ID!
+  """
+  Gets the featured image for the variant, the featured image is the first media of type image
+  """
+  image: Media
+  media(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    """Returns the first _n_ elements from the list."""
+    first: Int
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): MediaConnection!
+  """The metadata associated with the variant."""
+  metadata: [KeyValuePairOfStringAndString!]
+  """The name of the variant."""
+  name: String!
+  price: Price
+  priceV2: PriceDto
+  product: Product!
+  selectedAttributes: [SelectedAttributeDto!]!
+  selectedAttributesV2: [SelectedAttributeDto!]!
+  """The stock keeping unit of the variant."""
+  sku: String
+}
+
+type VariantAvailability {
+  """
+  Indicates whether the variant is available for sale in the current channel. Be aware that if the product is disabled for purchase, the variant will also be disabled.
+  """
+  availableForPurchase: Boolean!
+  inventory: VariantInventory
+}
+
+"""A connection to a list of items."""
+type VariantConnection {
+  """A list of edges."""
+  edges: [VariantEdge!]
+  """A flattened list of the nodes"""
+  nodes: [Variant!]
+  """Information to aid in pagination."""
+  pageInfo: Foo!
+  """Identifies the total count of items in the connection."""
+  totalCount: Int!
+}
+
+type VariantEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+  """The item at the end of the edge."""
+  node: Variant!
+}
+
+type VariantInventory {
+  availableQuantity: Int!
+  policy: StockPolicy!
+}
+
+type VariantNotFoundError implements UserError {
+  field: [String!]!
+  message: String!
+}
+
+type Zone {
+  code: String!
+  name: String!
+}
